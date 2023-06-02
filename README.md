@@ -1,7 +1,5 @@
 # [A Visual History of Nobel Prize Winners](https://mohitur669.github.io/Nobel-Prize-Winner-Analysis/)
 
-<!-- <p style="text-align:center;"><img src="img/nobel.png" alt="Logo" height = 250px width = 250px></p> -->
-
 <p align="center" width="100%">
     <img width="33%" src="img/nobel.png">
 </p>
@@ -17,17 +15,17 @@ So, this is an Exploratory Data Analysis Project to analyze and explore the patt
 # Data Source
 The [dataset](https://www.kaggle.com/nobelfoundation/nobel-laureates) used in this project is from The Nobel Foundation on Kaggle. The dataset is a collection of all the Nobel Laureates from 1901 to 2016. It is in CSV format. It contains 911 rows and 18 columns. The columns are as follows:
 
-* `Year` - Year of the award
-* `Category` - Category of the award
-* `Prize` - Prize name
-* `Motivation` - Reason for the award
-* `Prize Share` - Number of people who shared the award in a given year
-* `Laureate ID` - ID of the laureate
-* `Laureate Type` - Type of laureate
-* `Full Name` - Full name of the laureate
-* `Birth Date` - Date of birth of the laureate
-* `Birth City` - City of birth of the laureate
-* `Birth Country` - Country of birth of the laureate
+* **Year** - Year of the award
+* **Category** - Category of the award
+* **Prize** - Prize name
+* **Motivation** - Reason for the award
+* **Prize Share** - Number of people who shared the award in a given year
+* **Laureate ID** - ID of the laureate
+* **Laureate Type** - Type of laureate
+* **Full Name** - Full name of the laureate
+* **Birth Date** - Date of birth of the laureate
+* **Birth City** - City of birth of the laureate
+* **Birth Country** - Country of birth of the laureate
 
 # Data Analysis
 The data analysis is done in the following steps:
