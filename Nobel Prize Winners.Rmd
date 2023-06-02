@@ -1,0 +1,216 @@
+---
+title: "A Visual History of Nobel Prize Winners"
+output:
+  html_notebook: default
+  html_document: default
+  pdf_document: default
+---
+
+# 1. Introduction: History Nobel Prizes
+
+![](img/nobel.png){width="300" height="300"}
+
+The Nobel Prize is perhaps the worlds most well known scientific award. Except for the honor, prestige and substantial prize money the recipient also gets a gold medal showing Alfred Nobel (1833 - 1896) who established the prize. Every year it's given to scientists and scholars in the categories chemistry, literature, physics, physiology or medicine, economics, and peace. The first Nobel Prize was handed out in 1901, and at that time the Prize was very Eurocentric and male-focused, but nowadays it's not biased in any way whatsoever. Surely. Right?
+
+Well, we're going to find out! The Nobel Foundation has made a dataset available of all prize winners from the start of the prize, in 1901, to 2016. Let's load it in and take a look.
+
+# 2. About the Dataset
+
+The dataset is available on Kaggle. The dataset contains only one file "archive.csv". Link to the dataset - [here](https://www.kaggle.com/datasets/nobelfoundation/nobel-laureates)
+
+## 2.1 Context
+
+Between 1901 and 2016, the Nobel Prizes and the Prize in Economic Sciences were awarded 579 times to 911 people and organizations. The Nobel Prize is an international award administered by the Nobel Foundation in Stockholm, Sweden, and based on the fortune of Alfred Nobel, Swedish inventor and entrepreneur. In 1968, Sveriges Riksbank established The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel, founder of the Nobel Prize. Each Prize consists of a medal, a personal diploma, and a cash award.
+
+A person or organization awarded the Nobel Prize is called Nobel Laureate. The word "laureate" refers to being signified by the laurel wreath. In ancient Greece, laurel wreaths were awarded to victors as a sign of honor.
+
+# 3. Preparing the Data
+
+### 3.1 Installing & Loading the required packages
+
+```{r}
+install.packages("tidyverse")
+install.packages("lubridate")
+library(tidyverse)
+library(lubridate)
+```
+
+### 3.2 Loading the Data
+
+```{r}
+nobel <- read_csv("data/nobel.csv")
+# Checking the data is working or not
+head(nobel)
+```
+
+# 4. Analyzing the Data
+
+Just looking at the first couple of prize winners, or Nobel laureates as they are also called, we already see a celebrity: Wilhelm Conrad Röntgen, the guy who discovered X-rays. And actually, we see that all of the winners in 1901 were guys that came from Europe. But that was back in 1901, looking at all winners in the dataset, from 1901 to 2016, which sex and which country is the most commonly represented?
+
+(For country, we will use the birth_country of the winner, as the organization_country is NA for all shared Nobel Prizes.)
+
+### 4.1 How many Nobel Prizes had handed out from 1901 to 2016?
+
+```{r}
+nobel %>% count()
+```
+
+### 4.2 What is the breakdown of the number of prizes won by male and female recipients?
+
+```{r}
+nobel %>%
+  count(sex)
+```
+
+### 4.3 How many prizes have been won by recipients of different nationalities?
+
+```{r}
+nobel %>%
+  count(birth_country) %>%
+  arrange(desc(n)) %>%
+  head(20)
+```
+
+**Note:** From above table we can see that the most common Nobel laureate between 1901 and 2016 was a man born in the United States of America. But in 1901 all the laureates were European. When did the USA start to dominate the Nobel Prize charts? Let's check:
+
+### 4.4 What is the proportion of winners born in the USA per decade?
+
+```{r}
+prop_usa_winners <- nobel %>% 
+  mutate(
+    usa_born_winner = birth_country == "United States of America",
+    decade = floor(year / 10) * 10
+  ) %>%
+  group_by(decade) %>%
+  summarize(proportion = mean(usa_born_winner, na.rm = TRUE))
+
+# Display the proportions of USA born winners per decade
+prop_usa_winners
+```
+
+### 4.5 Who is the first woman to win the Nobel Prize and which catagory?
+
+```{r}
+nobel %>%
+    filter(sex == "Female") %>%
+    top_n(1, desc(year))
+```
+
+### 4.6 Who is the youngest winner of Nobel Prize as of 2016?
+
+You can also find this name in this [section](#custom).
+
+```{r}
+youngest_winner <- "Malala Yousafzai"
+youngest_winner
+```
+
+# 5. Data Visualization
+
+From the above table illustration, we can see the proportion of Nobel Prize winners born in the USA per decade. We need a visualization so that we can determine the point in time when the USA started to dominate the Nobel Prize charts.
+
+### 5.1 Plotting the winners who have been born in the US:
+
+```{r}
+ggplot(prop_usa_winners, aes(x = decade, y = proportion)) +
+  geom_line(color = "skyblue") +
+  geom_point(color = "red") +
+  scale_y_continuous(labels = scales::percent, limits = 0:1, expand = c(0, 0))
+ggsave("img/plot01.png", dpi=1000)
+```
+
+So, we can see that USA started dominating the charts from the 1930s and has kept the leading position ever since. Now let's calculate the female winners per decade:
+
+```{r}
+prop_female_winners <- nobel %>%
+    mutate(
+        female_winner = sex == "Female",
+        decade = floor(year / 10) * 10
+    ) %>%
+    group_by(decade, category) %>%
+    summarize(proportion = mean(female_winner, na.rm = TRUE))
+```
+
+And finally visualizing the female winners per decade:
+
+```{r}
+ggplot(prop_female_winners, aes(x = decade, y = proportion, color = category)) +
+  geom_line() +
+  geom_point() +
+  scale_y_continuous(labels = scales::percent, limits = 0:1, expand = c(0, 0))
+ggsave("img/plot02.png", dpi=1000)
+```
+
+The plot above is a bit messy as the lines are overplotting. But it does show some interesting trends and patterns. Overall the imbalance is pretty large with physics, economics, and chemistry having the largest imbalance. Medicine has a somewhat positive trend, and since the 1990s the literature prize is also now more balanced. The big outlier is the peace prize during the 2010s, but keep in mind that this just covers the years 2010 to 2016.
+
+### 5.2 Who is the Nobel Prize laureate who has won the award more than once?
+
+For most scientists/writers/activists a Nobel Prize would be the crowning achievement of a long career. But for some people, one is just not enough, and there are few that have gotten it more than once. To find that:
+
+```{r}
+nobel %>%
+  count(full_name) %>%
+  filter(n > 1)
+```
+
+We again meet Marie Curie, who got the prize in physics for discovering radiation and in chemistry for isolating radium and polonium. John Bardeen got it twice in physics for transistors and superconductivity, Frederick Sanger got it twice in chemistry, and Linus Carl Pauling got it first in chemistry and later in peace for his work in promoting nuclear disarmament. We also learn that organizations also get the prize as both the Red Cross and the UNHCR have gotten it twice.
+
+### 5.3 Age distribution of Nobel Prize Winners
+
+To visualize the age distribution of the Nobel Prize laureate, first we need to calculate the age of individual winners.
+
+```{r}
+nobel_age <- nobel %>%
+  mutate(age = year - year(birth_date))
+```
+
+After calculating the ages of the winners let's plot the data for better understanding.
+
+```{r}
+ggplot(nobel_age, aes(x = age, y = year)) +
+  geom_point(color = "blue") +
+  geom_smooth(color = "red")
+ggsave("img/plot03.png", dpi=1000)
+```
+
+The plot above shows us a lot! We see that people use to be around 55 when they received the price, but nowadays the average is closer to 65. But there is a large spread in the laureates' ages, and while most are 50+, some are very young.
+
+We also see that the density of points is much high nowadays than in the early 1900s -- nowadays many more of the prizes are shared, and so there are many more winners. We also see that there was a disruption in awarded prizes around the Second World War (1939 - 1945).
+
+### 5.4 Age differences between prize categories
+
+In the previous plot we visualized the age distribution but it was not within different prize categories. So, let us visualize that:
+
+```{r}
+ggplot(nobel_age, aes(x = age, y = year)) +
+  geom_point(color = "lightslateblue") +
+  geom_smooth(se = FALSE, color = "red") +
+  facet_wrap(~ category)
+ggsave("img/plot04.png", dpi=1000)
+```
+
+Another plot with lots of exciting stuff going on! We see that both winners of the chemistry, medicine, and physics prize have gotten older over time. The trend is strongest for physics: the average age used to be below 50, and now it's almost 70. Literature and economics are more stable, and we also see that economics is a newer category.
+
+### 5.5 Oldest and Youngest Winners
+
+But notice, Peace shows an opposite trend where winners are getting younger!
+
+In the peace category we also a winner around 2010 that seems exceptionally young. This begs the questions, who are the oldest and youngest people ever to have won a Nobel Prize?
+
+#### 5.5.1 Oldest Winner of 2016
+
+```{r}
+# The oldest winner of a Nobel Prize as of 2016
+nobel_age %>% top_n(1, age)
+```
+
+#### 5.5.2 Youngest Winner of 2016 {#custom}
+
+```{r}
+# The youngest winner of a Nobel Prize as of 2016
+nobel_age %>% top_n(1, desc(age))
+```
+
+# 6. Conclusion
+
+In conclusion, we have analyzed the Nobel Prize dataset from 1901 to 2016 and found some interesting insights. We saw that the USA started dominating the Nobel Prize charts from the 1930s and has kept the leading position ever since. We also observed that physics, economics, and chemistry have the largest imbalance in gender representation. We found out that Marie Curie is one of the few people who have won the award more than once, and we also visualized the age distribution of Nobel Prize winners over time. Finally, we discovered that Leonid Hurwicz was the oldest winner of a Nobel Prize as of 2016 while Malala Yousafzai was the youngest. Overall, this dataset provides a fascinating insight into one of the world's most prestigious scientific awards and its history.
