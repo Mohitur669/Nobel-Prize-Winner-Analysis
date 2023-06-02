@@ -1,6 +1,10 @@
 # [A Visual History of Nobel Prize Winners](https://mohitur669.github.io/Nobel-Prize-Winner-Analysis/)
 
-<p style="text-align:center;"><img src="img/nobel.png" alt="Logo" height = 250px width = 250px></p>
+<!-- <p style="text-align:center;"><img src="img/nobel.png" alt="Logo" height = 250px width = 250px></p> -->
+
+<p align="center" width="100%">
+    <img width="33%" src="img/nobel.png">
+</p>
 
 # Introduction
 
