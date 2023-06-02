@@ -1,5 +1,7 @@
 # [A Visual History of Nobel Prize Winners](https://mohitur669.github.io/Nobel-Prize-Winner-Analysis/)
 
+<p style="text-align:center;"><img src="img/nobel.png" alt="Logo" height = 250px width = 250px></p>
+
 # Introduction
 
 The Nobel Prize is perhaps the world's most well known scientific award. Every year it is given to scientists and scholars in chemistry, literature, physics, medicine, economics, and peace. The first Nobel Prize was handed out in 1901, and at that time the prize was Eurocentric and male-focused, but nowadays it's not biased in any way. Surely, right?
@@ -47,11 +49,10 @@ The dataset is pretty clean. There are no missing values. The only thing that ne
 The data is processed to answer the questions asked in the ASK step. The data is processed to answer the questions asked in the ASK step. 
 
 ## 4. ANALYZE
-After preparing and processing the data, the data is analyzed to determine the answers of the given questions in the ask
+After preparing and processing the data, the data is analyzed to determine the answers of the given questions in the [ASK](https://github.com/Mohitur669/Nobel-Prize-Winner-Analysis#4-analyze) section. The required processes had been shown in the `Nobel Prize Winners.Rmd`.
 
 ## 5. SHARE
-Every process had been shown in the `Nobel Prize Winners.Rmd`.
-You can open this file in RStudio to view it properly or else you can directly open the `Nobel Prize Winners.nb.html` file.
+To view the analysis, you can open `Nobel Prize Winners.Rmd` file in RStudio to view it properly or else you can directly open the `Nobel Prize Winners.nb.html` file.
 
 This file is also hosted in Github Pages so that you can watch it's code and output including the visualizations without running it again.
 
