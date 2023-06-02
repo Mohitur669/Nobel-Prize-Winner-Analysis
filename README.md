@@ -49,7 +49,7 @@ The dataset is pretty clean. There are no missing values. The only thing that ne
 The data is processed to answer the questions asked in the ASK step. The data is processed to answer the questions asked in the ASK step. 
 
 ## 4. ANALYZE
-After preparing and processing the data, the data is analyzed to determine the answers of the given questions in the [ASK](https://github.com/Mohitur669/Nobel-Prize-Winner-Analysis#4-analyze) section. The required processes had been shown in the `Nobel Prize Winners.Rmd`.
+After preparing and processing the data, the data is analyzed to determine the answers of the given questions in the **ASK** section. The required processes had been shown in the `Nobel Prize Winners.Rmd`.
 
 ## 5. SHARE
 To view the analysis, you can open `Nobel Prize Winners.Rmd` file in RStudio to view it properly or else you can directly open the `Nobel Prize Winners.nb.html` file.
