@@ -30,6 +30,7 @@ The [dataset](https://www.kaggle.com/nobelfoundation/nobel-laureates) used in th
 # Data Analysis
 The data analysis is done in the following steps:
 ## 1. ASK
+The problem statments to analyze the data can be found in the datacamp project [**page**](https://app.datacamp.com/learn/projects/nobel-winners/guided/Python). <br>
 The following are the questions that will be answered in this project:
 
 * The most Nobel of Prizes
